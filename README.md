@@ -44,8 +44,8 @@ Build a complete MLOps pipeline to:
 
 ## 🚩 Progress
 
-- [ ] Repository initialized
-- [ ] Data ingestion tested
+- [x] Repository initialized
+- [x] Data ingestion tested
 - [ ] Prefect pipeline ready
 - [ ] MLflow operational
 - [ ] Results analyzed
