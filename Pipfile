@@ -12,11 +12,15 @@ yfinance = "*"
 investpy = "*"
 prefect = "*"
 mlflow = "*"
+jupyter = "*"
+matplotlib = "*"
+seaborn = "*"
 
 [dev-packages]
 black = "*"
 isort = "*"
 pytest = "*"
+ipykernel = "*"
 
 [requires]
 python_version = "3.12"
