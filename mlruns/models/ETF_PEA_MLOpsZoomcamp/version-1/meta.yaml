@@ -1,18 +1,18 @@
 aliases: []
-creation_timestamp: 1752599618959
+creation_timestamp: 1752601998887
 current_stage: None
 deployment_job_state: null
 description: null
-last_updated_timestamp: 1752599618959
+last_updated_timestamp: 1752601998887
 metrics: null
-model_id: m-9466917f9af345359d8521a2130c0d7c
+model_id: m-49f0f8ce16984cd69889366c8b10fe3f
 name: ETF_PEA_MLOpsZoomcamp
 params: null
-run_id: 71bb2a63ce314583a6cffaff0b95166b
+run_id: 966e94ef34a1432b9f72ae90b8da694d
 run_link: null
-source: models:/m-9466917f9af345359d8521a2130c0d7c
+source: models:/m-49f0f8ce16984cd69889366c8b10fe3f
 status: READY
 status_message: null
-storage_location: file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns/279597552178412770/models/m-9466917f9af345359d8521a2130c0d7c/artifacts
+storage_location: file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns/516699187525708869/models/m-49f0f8ce16984cd69889366c8b10fe3f/artifacts
 user_id: null
 version: 1

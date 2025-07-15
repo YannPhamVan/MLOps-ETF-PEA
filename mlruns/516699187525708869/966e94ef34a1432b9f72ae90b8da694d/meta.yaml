@@ -1,0 +1,14 @@
+artifact_uri: file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns/516699187525708869/966e94ef34a1432b9f72ae90b8da694d/artifacts
+end_time: 1752601999043
+entry_point_name: ''
+experiment_id: '516699187525708869'
+lifecycle_stage: active
+run_id: 966e94ef34a1432b9f72ae90b8da694d
+run_name: casual-snipe-194
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752601990529
+status: 3
+tags: []
+user_id: Zelric
