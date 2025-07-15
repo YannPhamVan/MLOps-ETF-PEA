@@ -1,0 +1,22 @@
+artifact_path: file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns/279597552178412770/models/m-9ba527be9e774385a875d9829b7ec19b/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.8
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.0
+mlflow_version: 3.1.1
+model_id: m-9ba527be9e774385a875d9829b7ec19b
+model_size_bytes: 311290
+model_uuid: m-9ba527be9e774385a875d9829b7ec19b
+prompts: null
+run_id: 1870b69e58a94658b09d0003662d8d0e
+utc_time_created: '2025-07-15 17:32:21.860218'
