@@ -1,0 +1,10 @@
+artifact_location: file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns/516699187525708869/models/m-dd80b5f85db4448c92e08a165e60488f/artifacts
+creation_timestamp: 1752745282455
+experiment_id: '516699187525708869'
+last_updated_timestamp: 1752745289705
+model_id: m-dd80b5f85db4448c92e08a165e60488f
+model_type: null
+name: model
+source_run_id: 0661a63956d6487aa5cd6c0088dc736e
+status: 2
+status_message: null
