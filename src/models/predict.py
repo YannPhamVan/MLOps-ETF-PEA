@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
-# 📌 03_predict.ipynb - Predict ETF forward returns with registered MLflow model
-
+import argparse
+import logging
 from pathlib import Path
 
 import mlflow
@@ -13,78 +10,69 @@ import pandas as pd
 from mlflow.tracking import MlflowClient
 from sklearn.metrics import r2_score, root_mean_squared_error
 
-# In[2]:
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
-# 🚩 Config
-EXPERIMENT_NAME = "ETF_PEA_MLOpsZoomcamp"
-TRACKING_URI = "file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns"
+def predict_returns(
+    experiment_name: str,
+    tracking_uri: str,
+    data_path: Path,
+    predictions_dir: Path,
+) -> None:
+    mlflow.set_tracking_uri(tracking_uri)
+    client = MlflowClient()
 
-DATA_PATH = Path("../data/df_all.parquet")
-PREDICTIONS_DIR = Path("../data/predictions")
-PREDICTIONS_DIR.mkdir(parents=True, exist_ok=True)
+    # Load latest model version
+    latest_versions = client.get_latest_versions(experiment_name, stages=["None"])
+    model_uri = f"models:/{experiment_name}/{latest_versions[0].version}"
+    model = mlflow.pyfunc.load_model(model_uri)
+    logging.info("Loaded model version %s from MLflow registry", latest_versions[0].version)
 
+    # Load data
+    df_all = pd.read_parquet(data_path)
+    logging.info("Data shape: %s", df_all.shape)
 
-# In[3]:
+    feature_cols = [col for col in df_all.columns if col not in ["target", "ticker"]]
+    X = df_all[feature_cols]
+    y_true = df_all["target"]
 
+    # Predict
+    y_pred = model.predict(X)
+    df_all["prediction"] = y_pred
 
-# 🚩 Init MLflow
-mlflow.set_tracking_uri(TRACKING_URI)
-client = MlflowClient()
+    # Save predictions
+    predictions_dir.mkdir(parents=True, exist_ok=True)
+    pred_file = predictions_dir / "predictions.parquet"
+    df_all.to_parquet(pred_file, index=False)
+    logging.info("Predictions saved to %s", pred_file)
 
-
-# In[4]:
-
-
-# ✅ Load latest model version from Registry
-model_name = EXPERIMENT_NAME
-latest_versions = client.get_latest_versions(model_name, stages=["None"])
-model_uri = f"models:/{model_name}/{latest_versions[0].version}"
-
-model = mlflow.pyfunc.load_model(model_uri)
-print(f"✅ Model v{latest_versions[0].version} loaded from MLflow Registry.")
-
-
-# In[5]:
-
-
-# ✅ Load data
-df_all = pd.read_parquet(DATA_PATH)
-print(f"✅ Data shape: {df_all.shape}")
-
-
-# In[6]:
-
-
-# ✅ Predict
-feature_cols = [col for col in df_all.columns if col not in ["target", "ticker"]]
-X = df_all[feature_cols]
-y_true = df_all["target"]
-
-y_pred = model.predict(X)
+    # Evaluation
+    rmse = root_mean_squared_error(y_true, y_pred)
+    r2 = r2_score(y_true, y_pred)
+    logging.info("Evaluation -> RMSE: %.5f, R2: %.5f", rmse, r2)
 
 
-# In[7]:
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Predict ETF forward returns with registered MLflow model.")
+    parser.add_argument(
+        "--data_path",
+        type=str,
+        default=None,
+        help="Path to parquet dataset",
+    )
+    parser.add_argument(
+        "--predictions_dir",
+        type=str,
+        default=None,
+        help="Directory to save predictions",
+    )
+    args = parser.parse_args()
 
+    project_root = Path(__file__).resolve().parents[2]
+    experiment_name = "ETF_PEA_MLOpsZoomcamp"
+    tracking_uri = f"file:///{project_root}/mlruns"
 
-# ✅ Save predictions
-df_all["prediction"] = y_pred
-pred_file = PREDICTIONS_DIR / "predictions.parquet"
-df_all.to_parquet(pred_file, index=False)
-print(f"✅ Predictions saved to {pred_file}")
+    data_path = Path(args.data_path) if args.data_path else project_root / "data" / "df_all.parquet"
+    predictions_dir = Path(args.predictions_dir) if args.predictions_dir else project_root / "data" / "predictions"
 
-
-# In[8]:
-
-
-# ✅ Quick evaluation
-rmse = root_mean_squared_error(y_true, y_pred)
-r2 = r2_score(y_true, y_pred)
-print(f"✅ Evaluation on full dataset -> RMSE: {rmse:.5f}, R²: {r2:.5f}")
-
-
-# In[9]:
-
-
-# ✅ Display sample
-df_all[["target", "prediction"]].head()
+    predict_returns(experiment_name, tracking_uri, data_path, predictions_dir)

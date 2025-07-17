@@ -1,0 +1,18 @@
+aliases: []
+creation_timestamp: 1752742675486
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1752742675486
+metrics: null
+model_id: m-240478f830fc43d0993207ecbe6fbdc0
+name: ETF_PEA_MLOpsZoomcamp
+params: null
+run_id: a64f643b426b40239b983bfca4f81c2f
+run_link: null
+source: models:/m-240478f830fc43d0993207ecbe6fbdc0
+status: READY
+status_message: null
+storage_location: file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns/516699187525708869/models/m-240478f830fc43d0993207ecbe6fbdc0/artifacts
+user_id: null
+version: 2
