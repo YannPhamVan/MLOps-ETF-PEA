@@ -1,26 +1,36 @@
-.PHONY: install lint format test train predict clean
-
 install:
 	pipenv install --dev
 
 lint:
-	black . --check
-	isort . --check
-	pylint src/ scripts/ tests/
-
-format:
-	black .
-	isort .
+	pipenv run black src tests
+	pipenv run flake8 src tests
+	pipenv run isort src tests
 
 test:
-	pytest tests/
+	pipenv run pytest tests
+
+format:
+	pipenv run black src tests
+	pipenv run isort src tests
+
+ingest:
+	pipenv run python src/data/ingest_etf_data.py
+
+feature:
+	pipenv run python src/data/feature_engineering.py
 
 train:
-	python notebooks/02_train_model.ipynb
+	pipenv run python src/models/train_model.py
 
 predict:
-	python notebooks/03_predict.ipynb
+	pipenv run python src/models/predict.py
 
-clean:
-	find . -type d -name "__pycache__" -exec rm -r {} +
-	find . -type d -name ".ipynb_checkpoints" -exec rm -r {} +
+build:
+	docker build -t etf-mlops-fastapi .
+
+deploy:
+	docker run -p 8000:8000 etf-mlops-fastapi
+
+ci-check:
+	make lint
+	make test
