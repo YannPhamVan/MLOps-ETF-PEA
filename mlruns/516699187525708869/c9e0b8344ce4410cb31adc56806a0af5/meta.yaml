@@ -1,0 +1,14 @@
+artifact_uri: file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns/516699187525708869/c9e0b8344ce4410cb31adc56806a0af5/artifacts
+end_time: 1752762040118
+entry_point_name: ''
+experiment_id: '516699187525708869'
+lifecycle_stage: active
+run_id: c9e0b8344ce4410cb31adc56806a0af5
+run_name: wise-cow-3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752762028685
+status: 3
+tags: []
+user_id: Zelric

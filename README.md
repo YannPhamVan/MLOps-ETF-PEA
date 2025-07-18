@@ -1,70 +1,82 @@
-# MLOps Zoomcamp Capstone – ETF PEA Optimizer
+# 🚀 MLOps-ETF-PEA - Final Project (MLOps Zoomcamp)
 
-This repository contains my final project for the **#mlopszoomcamp** (DataTalks.Club), due on **July 29, 2025**.
+This project applies MLOps best practices for predicting PEA-eligible ETF returns using Prefect, MLflow, Evidently, FastAPI, Docker, Terraform, and LocalStack to achieve full end-to-end automation and reproducibility.
 
-🎯 **Objective:**
-Build a complete MLOps pipeline to:
-- Collect 5 years of historical data for PEA-eligible ETFs
-- Compute technical indicators (RSI, cumulative returns, volatility)
-- Score or predict future performance to optimize a PEA portfolio
-- Orchestrate the pipeline with **Prefect**
-- Track experiments with **MLflow**
+## 🪐 Context
+This project automates the full pipeline: ingestion → feature engineering → training → monitoring → prediction, with deployment of a containerized FastAPI API using Docker and cloud simulation via LocalStack.
+
+## 🛠️ Pipeline
+- **Ingestion**: retrieving and preparing ETF data.
+- **Feature engineering**: creating new explanatory variables.
+- **Training**: training regression models tracked with MLflow.
+- **Monitoring**: drift monitoring with Evidently.
+- **Deployment**: serving a FastAPI API in a Docker container via LocalStack.
+- **Orchestration**: Prefect for workflow automation.
+
+## 🚀 Quickstart
+1️⃣ Clone this repository and navigate into the project folder:
+```bash
+git clone https://github.com/YannPhamVan/MLOps-ETF-PEA.git
+cd MLOps-ETF-PEA
+```
+
+2️⃣ Install dependencies using Pipenv:
+```bash
+pip install pipenv
+pipenv install --dev
+```
+
+3️⃣ Run key pipeline steps:
+```bash
+make ingest        # Ingest ETF data
+make feature       # Feature engineering
+make train         # Train the model with MLflow tracking
+make predict       # Generate batch predictions
+```
+
+4️⃣ Deploy the FastAPI service locally:
+```bash
+make build         # Build the Docker image
+make deploy        # Launch the FastAPI container
+```
+
+5️⃣ Launch LocalStack for cloud simulation:
+```bash
+docker-compose up -d
+```
+This will simulate **S3, Lambda, and API Gateway** locally for testing your pipeline.
+
+6️⃣ Monitor drift using Evidently by running:
+```bash
+jupyter notebook notebooks/04_monitoring.ipynb
+```
+
+7️⃣ Run linting and tests:
+```bash
+make lint
+make test
+```
+
+## 📂 Project Structure
+- `notebooks/`: EDA, validation, monitoring.
+- `data/`: raw data, feature sets, predictions.
+- `mlruns/`: MLflow tracking.
+- `tests/`: unit and integration tests.
+- `src/`: ingestion, feature engineering, model training, prediction scripts.
+- `prefect_flows/`: Prefect flows.
+- `Dockerfile`, `docker-compose.yml`: deployment and cloud simulation.
+- `Makefile`: unified execution.
+- `Pipfile`: dependency management.
+- `.github/workflows/`: CI/CD pipeline.
+
+## ✅ Best Practices
+- Experiment tracking and model registry with MLflow.
+- Workflow orchestration with Prefect.
+- CI/CD with GitHub Actions.
+- Unit and integration testing.
+- Pre-commit hooks for linting and formatting (`black`, `flake8`, `isort`).
+- Monitoring and drift detection with Evidently.
 
 ---
 
-## ✅ Project Steps
-
-- **Data ingestion:** Using `investpy` or `yfinance` for ETF PEA data
-- **Feature engineering:** Simple technical indicators
-- **Modeling:** LightGBM for scoring or prediction
-- **Orchestration:** Prefect (local)
-- **Experiment tracking:** MLflow (local)
-- **Documentation:** Clean README and Loom demo video
-
----
-
-## 📅 Timeline
-
-- **July 14-20:** Ingestion, feature engineering, modeling
-- **July 21-28:** Orchestration, E2E tests, documentation
-- **July 28:** Record Loom video, final push
-
----
-
-## 🛠️ Tech Stack
-
-- Python, Pandas, NumPy
-- `investpy` / `yfinance`
-- LightGBM, Scikit-learn
-- MLflow
-- Prefect
-- Git & GitHub
-
----
-
-## 🚩 Progress
-
-- [x] Repository initialized
-- [x] Data ingestion tested
-- [ ] Prefect pipeline ready
-- [ ] MLflow operational
-- [ ] Results analyzed
-- [ ] Loom video recorded
-
----
-
-## 📊 Expected Results
-
-- Ranked PEA ETFs based on computed scores
-- Visualizations: cumulative returns, volatility
-- Stable, reproducible Prefect pipeline
-
----
-
-## ✍️ Author
-
-[Yann Pham-Van](https://www.linkedin.com/in/chasseur2valeurs) – Data & ML Engineer
-
----
-
-**#mlopszoomcamp #pea #etf #mlops**
+[LinkedIn](https://www.linkedin.com/in/chasseur2valeurs/) | [GitHub](https://github.com/YannPhamVan)
