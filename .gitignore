@@ -26,3 +26,6 @@ mlruns.db
 # OS
 .DS_Store
 Thumbs.db
+
+# Terraform
+.terraform/

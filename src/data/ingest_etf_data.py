@@ -1,5 +1,7 @@
 import os
+from pathlib import Path
 
+import boto3
 import yfinance as yf
 
 
@@ -21,3 +23,26 @@ if __name__ == "__main__":
     output_dir = "../data/raw"
 
     download_etf_data(etf_list, start_date, end_date, output_dir)
+
+
+def upload_to_localstack(local_file, bucket, s3_key):
+    s3 = boto3.client(
+        "s3",
+        endpoint_url="http://localhost:4566",
+        aws_access_key_id="test",
+        aws_secret_access_key="test",
+        region_name="us-east-1",
+    )
+    s3.upload_file(str(local_file), bucket, s3_key)
+    print(f"Uploaded {local_file} to s3://{bucket}/{s3_key}")
+
+
+if __name__ == "__main__":
+    # ingestion code...
+
+    raw_data_folder = Path("data/raw")
+    bucket_name = "mlops-etf-pea-bucket"
+
+    for parquet_file in raw_data_folder.glob("*.parquet"):
+        s3_key = f"ingested/{parquet_file.name}"
+        upload_to_localstack(parquet_file, bucket_name, s3_key)
