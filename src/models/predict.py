@@ -10,7 +10,9 @@ import pandas as pd
 from mlflow.tracking import MlflowClient
 from sklearn.metrics import r2_score, root_mean_squared_error
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 def predict_returns(
@@ -26,7 +28,9 @@ def predict_returns(
     latest_versions = client.get_latest_versions(experiment_name, stages=["None"])
     model_uri = f"models:/{experiment_name}/{latest_versions[0].version}"
     model = mlflow.pyfunc.load_model(model_uri)
-    logging.info("Loaded model version %s from MLflow registry", latest_versions[0].version)
+    logging.info(
+        "Loaded model version %s from MLflow registry", latest_versions[0].version
+    )
 
     # Load data
     df_all = pd.read_parquet(data_path)
@@ -53,7 +57,9 @@ def predict_returns(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Predict ETF forward returns with registered MLflow model.")
+    parser = argparse.ArgumentParser(
+        description="Predict ETF forward returns with registered MLflow model."
+    )
     parser.add_argument(
         "--data_path",
         type=str,
@@ -72,7 +78,15 @@ if __name__ == "__main__":
     experiment_name = "ETF_PEA_MLOpsZoomcamp"
     tracking_uri = f"file:///{project_root}/mlruns"
 
-    data_path = Path(args.data_path) if args.data_path else project_root / "data" / "df_all.parquet"
-    predictions_dir = Path(args.predictions_dir) if args.predictions_dir else project_root / "data" / "predictions"
+    data_path = (
+        Path(args.data_path)
+        if args.data_path
+        else project_root / "data" / "df_all.parquet"
+    )
+    predictions_dir = (
+        Path(args.predictions_dir)
+        if args.predictions_dir
+        else project_root / "data" / "predictions"
+    )
 
     predict_returns(experiment_name, tracking_uri, data_path, predictions_dir)

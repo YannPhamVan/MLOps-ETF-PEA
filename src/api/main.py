@@ -1,13 +1,17 @@
+import pickle
+
+import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import pickle
-import pandas as pd
 
-app = FastAPI(title="ETF Return Prediction API", description="MLOps Zoomcamp Final Project")
+app = FastAPI(
+    title="ETF Return Prediction API", description="MLOps Zoomcamp Final Project"
+)
 
 # Load model once at startup
 with open("model/model.pkl", "rb") as f:
     model = pickle.load(f)
+
 
 class ETFInput(BaseModel):
     feature1: float
@@ -15,9 +19,11 @@ class ETFInput(BaseModel):
     feature3: float
     # Add all required features here
 
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the ETF Return Prediction API"}
+
 
 @app.post("/predict")
 def predict_etf(input_data: ETFInput):
