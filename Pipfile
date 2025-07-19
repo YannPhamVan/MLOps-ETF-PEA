@@ -4,9 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pandas = "*"
 numpy = "*"
-scikit-learn = "*"
 yfinance = "*"
 investpy = "*"
 prefect = "*"
@@ -15,6 +13,11 @@ jupyter = "*"
 matplotlib = "*"
 seaborn = "*"
 lightgbm = "*"
+fastapi = "*"
+uvicorn = "*"
+pydantic = "*"
+pandas = "*"
+scikit-learn = "*"
 
 [dev-packages]
 black = "*"
