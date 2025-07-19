@@ -1,30 +1,39 @@
+SHELL := /bin/bash
+
+ifeq ($(OS),Windows_NT)
+	ACTIVATE = .venv/Scripts/activate
+else
+	ACTIVATE = source .venv/bin/activate
+endif
+
 install:
 	python -m venv .venv
-	source .venv/Scripts/activate && pip install -r requirements.txt
+	$(ACTIVATE) && pip install -r requirements.txt
 
 lint:
-	source .venv/Scripts/activate && black src tests
-	source .venv/Scripts/activate && flake8 src tests
-	source .venv/Scripts/activate && isort src tests
+	$(ACTIVATE) && black src tests
+	$(ACTIVATE) && flake8 src tests
+	$(ACTIVATE) && isort src tests
 
 test:
-	PYTHONPATH=. source .venv/Scripts/activate && pytest tests
+	PYTHONPATH=$(pwd) .venv/Scripts/python.exe -m pytest tests
+	
 
 format:
-	source .venv/Scripts/activate && black src tests
-	source .venv/Scripts/activate && isort src tests
+	$(ACTIVATE) && black src tests
+	$(ACTIVATE) && isort src tests
 
 ingest:
-	PYTHONPATH=. source .venv/Scripts/activate && python src/data/ingest_etf_data.py
+	PYTHONPATH="$(shell pwd)" $(ACTIVATE) && python src/data/ingest_etf_data.py
 
 feature:
-	PYTHONPATH=. source .venv/Scripts/activate && python src/data/feature_engineering.py
+	PYTHONPATH="$(shell pwd)" $(ACTIVATE) && python src/data/feature_engineering.py
 
 train:
-	PYTHONPATH=. source .venv/Scripts/activate && python src/models/train_model.py
+	PYTHONPATH="$(shell pwd)" $(ACTIVATE) && python src/models/train_model.py
 
 predict:
-	PYTHONPATH=. source .venv/Scripts/activate && python src/models/predict.py
+	PYTHONPATH="$(shell pwd)" $(ACTIVATE) && python src/models/predict.py
 
 build:
 	docker build -t etf-mlops-fastapi .
