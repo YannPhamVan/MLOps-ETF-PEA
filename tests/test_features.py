@@ -1,6 +1,6 @@
 import pandas as pd
 
-from scripts.feature_engineering import compute_features
+from src.data.feature_engineering import compute_features
 
 
 def test_compute_features_generates_columns():

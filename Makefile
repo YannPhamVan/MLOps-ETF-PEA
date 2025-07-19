@@ -1,29 +1,30 @@
 install:
-	pipenv install --dev
+	python -m venv .venv
+	source .venv/Scripts/activate && pip install -r requirements.txt
 
 lint:
-	pipenv run black src tests
-	pipenv run flake8 src tests
-	pipenv run isort src tests
+	source .venv/Scripts/activate && black src tests
+	source .venv/Scripts/activate && flake8 src tests
+	source .venv/Scripts/activate && isort src tests
 
 test:
-	pipenv run pytest tests
+	PYTHONPATH=. source .venv/Scripts/activate && pytest tests
 
 format:
-	pipenv run black src tests
-	pipenv run isort src tests
+	source .venv/Scripts/activate && black src tests
+	source .venv/Scripts/activate && isort src tests
 
 ingest:
-	pipenv run python src/data/ingest_etf_data.py
+	PYTHONPATH=. source .venv/Scripts/activate && python src/data/ingest_etf_data.py
 
 feature:
-	pipenv run python src/data/feature_engineering.py
+	PYTHONPATH=. source .venv/Scripts/activate && python src/data/feature_engineering.py
 
 train:
-	pipenv run python src/models/train_model.py
+	PYTHONPATH=. source .venv/Scripts/activate && python src/models/train_model.py
 
 predict:
-	pipenv run python src/models/predict.py
+	PYTHONPATH=. source .venv/Scripts/activate && python src/models/predict.py
 
 build:
 	docker build -t etf-mlops-fastapi .

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - localstack
+
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - SERVICES=s3,lambda,apigateway
+      - DEBUG=1
+    ports:
+      - "4566:4566"
+      - "4571:4571"
