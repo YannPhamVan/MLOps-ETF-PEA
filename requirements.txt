@@ -6,7 +6,7 @@ pandas
 numpy
 scikit-learn
 mlflow
-evidently
+evidently==0.4.24
 prefect
 fastapi
 uvicorn
@@ -24,7 +24,7 @@ investpy
 
 # Utilities
 python-dotenv
-pyyaml
+pyyaml>=5.4.1
 requests
 tqdm
 pyarrow

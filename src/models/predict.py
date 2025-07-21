@@ -57,8 +57,15 @@ def predict_returns(
     logging.info("Evaluation -> RMSE: %.5f, R2: %.5f", rmse, r2)
     metrics = {"RMSE": rmse, "R2": r2}
 
-    # Log dans MLflow
-    mlflow.log_metrics(metrics)
+    # Récupérer l'experiment_id par nom
+    experiment = client.get_experiment_by_name(experiment_name)
+    if experiment is None:
+        raise ValueError(f"Experiment '{experiment_name}' not found.")
+    experiment_id = experiment.experiment_id
+
+    # Log metrics dans une run liée à l'experience correcte
+    with mlflow.start_run(experiment_id=experiment_id):
+        mlflow.log_metrics(metrics)
 
     # Sauvegarde locale pour Prefect
     metrics_path = Path("data/metrics")
