@@ -83,16 +83,6 @@ python src/monitoring/monitor.py
 ```
 
 ---
-
-## 🖼️ Suggested screenshots to add:
-
-* **Prefect UI with active flow**: (add `images/prefect_flow.png`)
-* **MLflow UI with experiment tracking**: (add `images/mlflow_tracking.png`)
-* **FastAPI docs (localhost:8000/docs)**: (add `images/fastapi_docs.png`)
-* **Monitoring dashboard / output plot**: (add `images/monitoring_dashboard.png`)
-
----
-
 ## 📈 Results
 
 * Trained LightGBM model on ETF return features with MLflow.
