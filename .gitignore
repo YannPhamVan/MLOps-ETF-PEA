@@ -7,6 +7,11 @@ __pycache__/
 .eggs/
 *.sqlite3
 *.db
+*.py[cod]
+*.so
+*.egg
+dist/
+build/
 
 # Virtual environments
 .venv/
@@ -29,3 +34,19 @@ Thumbs.db
 
 # Terraform
 .terraform/
+*.tfstate
+*.tfstate.backup
+
+# Parquet and data
+*.parquet
+data/*.parquet
+data/features/
+data/raw/
+data/predictions/
+data/metrics/
+
+# Logs
+*.log
+
+# Prefect local
+prefect.db

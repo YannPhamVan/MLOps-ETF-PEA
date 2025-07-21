@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import argparse
+import json
 import logging
 from pathlib import Path
 
@@ -54,6 +55,16 @@ def predict_returns(
     rmse = root_mean_squared_error(y_true, y_pred)
     r2 = r2_score(y_true, y_pred)
     logging.info("Evaluation -> RMSE: %.5f, R2: %.5f", rmse, r2)
+    metrics = {"RMSE": rmse, "R2": r2}
+
+    # Log dans MLflow
+    mlflow.log_metrics(metrics)
+
+    # Sauvegarde locale pour Prefect
+    metrics_path = Path("data/metrics")
+    metrics_path.mkdir(parents=True, exist_ok=True)
+    with open(metrics_path / "metrics.json", "w") as f:
+        json.dump(metrics, f, indent=4)
 
 
 if __name__ == "__main__":

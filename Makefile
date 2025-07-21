@@ -44,3 +44,6 @@ deploy:
 ci-check:
 	make lint
 	make test
+
+pipeline:
+	PYTHONPATH="$(shell pwd)" $(ACTIVATE) && python src/pipeline/prefect_flow.py

@@ -1,3 +1,4 @@
+import json
 import subprocess
 import sys
 
@@ -49,6 +50,17 @@ def predict():
     subprocess.run([sys.executable, "src/models/predict.py"], check=True)
 
 
+@task
+def display_metrics():
+    with open("data/metrics/metrics.json", "r") as f:
+        metrics = json.load(f)
+    print(
+        f"Model Evaluation Metrics:\n"
+        f"RMSE: {metrics['RMSE']:.5f}\n"
+        f"R2: {metrics['R2']:.5f}"
+    )
+
+
 @flow
 def etf_pipeline_flow():
     ingest_data()
@@ -56,6 +68,7 @@ def etf_pipeline_flow():
     rebuild_dataset()
     train_model()
     predict()
+    display_metrics()
 
 
 if __name__ == "__main__":
