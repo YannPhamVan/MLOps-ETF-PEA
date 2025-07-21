@@ -61,6 +61,11 @@ def display_metrics():
     )
 
 
+@task
+def run_monitoring():
+    subprocess.run([sys.executable, "src/monitoring/monitor.py"], check=True)
+
+
 @flow
 def etf_pipeline_flow():
     ingest_data()
@@ -69,6 +74,7 @@ def etf_pipeline_flow():
     train_model()
     predict()
     display_metrics()
+    run_monitoring()
 
 
 if __name__ == "__main__":

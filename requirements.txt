@@ -15,6 +15,7 @@ uvicorn
 matplotlib
 seaborn
 notebook
+jupyter
 
 # Data ingestion
 yfinance
@@ -26,6 +27,13 @@ python-dotenv
 pyyaml
 requests
 tqdm
+pyarrow
+
+# LightGBM model
+lightgbm
+
+# AWS / LocalStack
+boto3
 
 # Dev and linting tools
 black
