@@ -63,46 +63,18 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 
 ```mermaid
 graph TD
-  subgraph User
-    A[User requests prediction via API]
-  end
+  A[User requests prediction via API] --> B[FastAPI]
+  B --> C[Prediction Script]
+  C --> D[MLflow Registered Model]
+  C --> E[Reads Features in Parquet]
+  C --> F[Writes Predictions]
 
-  subgraph API
-    B[FastAPI]
-  end
-
-  subgraph Data Storage
-    C[MinIO (or local storage)]
-    D[Parquet files]
-  end
-
-  subgraph Model
-    E[MLflow registered models]
-    F[Prediction script]
-  end
-
-  subgraph Monitoring
-    G[Evidently reports drift]
-  end
-
-  subgraph Workflow
-    H[Prefect ETL flow]
-    I[Feature engineering]
-    J[Model training]
-  end
-
-  A --> B
-  B --> F
-  F --> E
-  F --> C
-  F --> D
-
-  H --> I
+  G[Prefect ETL Flow] --> H[Feature Engineering]
+  H --> E
+  G --> I[Model Training]
   I --> D
-  H --> J
-  J --> E
 
-  F --> G
+  C --> J[Evidently Drift Monitoring]
 ```
 
 ---
