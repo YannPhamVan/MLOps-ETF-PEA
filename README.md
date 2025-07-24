@@ -60,6 +60,7 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 * `tests/` : unit tests and pipeline tests
 
 ---
+## 🖥️ System Architecture
 
 ```mermaid
 graph TD
