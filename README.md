@@ -61,7 +61,6 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 
 ---
 
-```markdown
 ```mermaid
 graph TD
   A[User requests prediction via API] --> B[FastAPI]
@@ -76,7 +75,6 @@ graph TD
   I --> D
 
   C --> J[Evidently Drift Monitoring]
-```
 ```
 
 ---
