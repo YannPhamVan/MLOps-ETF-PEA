@@ -60,38 +60,39 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 * `tests/` : unit tests and pipeline tests
 
 ---
-## 🖥️ System Architecture (Mermaid)
+## 🖥️ System Architecture
 
 ```mermaid
-graph TD
-  subgraph User Interaction
-    A[User / Frontend]
-    A -->|HTTP Request| B[FastAPI API]
-  end
+flowchart TD
+    subgraph User Interaction
+        A[👤 User]
+        A -->|Request| B[FastAPI API]
+    end
 
-  subgraph Real-time Inference
-    B -->|Load Model + Features| C[Model Predictor (LightGBM)]
-  end
+    subgraph Real-time Inference
+        B -->|Load model + features| C[LightGBM Predictor]
+        C -->|Return prediction| A
+    end
 
-  subgraph Batch Processing & Training
-    D[Prefect Workflow]
-    D -->|Run ETL + Feature Engineering| E[Data Preparation (Parquet)]
-    D -->|Trigger Training| F[Model Training]
-    F -->|Log + Register| G[MLflow Registry]
-    G -->|Versioned Models| C
-  end
+    subgraph Data & Preparation
+        D[S3 (LocalStack or Cloud)]
+        E[Parquet + Pandas + Feature Engineering]
+        E --> D
+        D -->|Load data| C
+    end
 
-  subgraph Model Monitoring
-    H[Evidently Drift Monitoring]
-    H -->|Check Data Drift| E
-    H -->|Trigger Retraining if needed| D
-  end
+    subgraph Orchestration
+        F[Prefect Flow]
+        F -->|Trigger ETL + Training| E
+        F -->|Trigger Retraining| G[MLflow Tracking + Registry]
+        G -->|Versioned Model| C
+    end
 
-  subgraph Data Storage
-    I[S3 or Local Data Lake]
-    E -->|Store Features| I
-    I -->|Load Features| C
-  end
+    subgraph Monitoring
+        H[Evidently]
+        H -->|Drift Detection| G
+        H -->|Drift Detection| F
+    end
 
 ---
 
