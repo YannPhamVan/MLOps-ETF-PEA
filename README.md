@@ -163,8 +163,11 @@ Contributions, issues and PRs welcome.
 ## 🏁 Next improvements
 
 ✅ Containerize and deploy to cloud (AWS Lambda/Fargate).
+
 ✅ Add alert-based monitoring with Prefect triggers.
+
 ✅ Extend hyperparameter tuning workflows.
+
 ✅ Add Grafana dashboards if needed for advanced monitoring.
 
 ---
