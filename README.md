@@ -154,7 +154,7 @@ Contributions, issues and PRs welcome.
 
 ## 📬 Contact
 
-**Yann Pham Van**
+**Yann Pham-Van**
 
 [LinkedIn](https://www.linkedin.com/in/chasseur2valeurs/) | [GitHub](https://github.com/YannPhamVan)
 
