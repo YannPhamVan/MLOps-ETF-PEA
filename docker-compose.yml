@@ -18,7 +18,7 @@ services:
       - "4566:4566"
       - "4571:4571"
     volumes:
-      - localstack_data:/tmp/localstack
+      - localstack_tmp:/tmp/localstack-tmp
 
 volumes:
-  localstack_data:
+  localstack_tmp:
