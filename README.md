@@ -60,6 +60,9 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 * `tests/` : unit tests and pipeline tests
 
 ---
+
+````markdown
+```mermaid
 graph TD
   A[User requests prediction via API] --> B[FastAPI]
   B --> C[Prediction Script]
