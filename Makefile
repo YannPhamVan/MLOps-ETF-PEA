@@ -1,9 +1,14 @@
 SHELL := /bin/bash
 
-ifeq ($(OS),Windows_NT)
-	ACTIVATE = .venv/Scripts/activate
+# Neutralise activation si dans Codespaces
+ifdef CODESPACES
+	ACTIVATE =
 else
-	ACTIVATE = source .venv/bin/activate
+	ifeq ($(OS),Windows_NT)
+		ACTIVATE = .venv/Scripts/activate
+	else
+		ACTIVATE = source .venv/bin/activate
+	endif
 endif
 
 install:
@@ -17,7 +22,6 @@ lint:
 
 test:
 	PYTHONPATH=$(pwd) .venv/Scripts/python.exe -m pytest tests
-	
 
 format:
 	$(ACTIVATE) && black src tests
