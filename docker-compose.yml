@@ -16,3 +16,8 @@ services:
     ports:
       - "4566:4566"
       - "4571:4571"
+    volumes:
+      - localstack_data:/tmp/localstack
+
+volumes:
+  localstack_data:
