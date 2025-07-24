@@ -60,40 +60,20 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 * `tests/` : unit tests and pipeline tests
 
 ---
-## 🖥️ System Architecture
+graph TD
+  A[User requests prediction via API] --> B[FastAPI]
+  B --> C[Prediction Script]
+  C --> D[MLflow Registered Model]
+  C --> E[Reads Features in Parquet]
+  C --> F[Writes Predictions]
 
-```mermaid
-flowchart TD
-    subgraph User Interaction
-        A[👤 User]
-        A -->|Request| B[FastAPI API]
-    end
+  G[Prefect ETL Flow] --> H[Feature Engineering]
+  H --> E
+  G --> I[Model Training]
+  I --> D
 
-    subgraph Real-time Inference
-        B -->|Load model + features| C[LightGBM Predictor]
-        C -->|Return prediction| A
-    end
+  C --> J[Evidently Drift Monitoring]
 
-    subgraph Data & Preparation
-        D[S3 (LocalStack or Cloud)]
-        E[Parquet + Pandas + Feature Engineering]
-        E --> D
-        D -->|Load data| C
-    end
-
-    subgraph Orchestration
-        F[Prefect Flow]
-        F -->|Trigger ETL + Training| E
-        F -->|Trigger Retraining| G[MLflow Tracking + Registry]
-        G -->|Versioned Model| C
-    end
-
-    subgraph Monitoring
-        H[Evidently]
-        H -->|Drift Detection| G
-        H -->|Drift Detection| F
-    end
-```
 ---
 
 ## 🚀 Quickstart
