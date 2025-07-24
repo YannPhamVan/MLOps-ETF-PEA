@@ -105,13 +105,34 @@ make format
 make lint
 make test
 
-# Start Prefect ETL pipeline
+# Launch LocalStack (AWS emulation)
+docker-compose up -d
+
+# ⚠️ Configure fake AWS credentials for LocalStack
+aws configure
+# Fill with:
+# AWS Access Key ID: test
+# AWS Secret Access Key: test
+# Default region name: us-east-1
+# Default output format: json
+
+# ⚠️ On Linux, if you get:
+# "Could not connect to the endpoint URL: http://localhost:4566/"
+# try using:
+#   --endpoint-url=http://host.docker.internal:4566
+# instead of:
+#   --endpoint-url=http://localhost:4566
+#
+# Test LocalStack S3:
+aws --endpoint-url=http://localhost:4566 s3 ls
+
+# Run Prefect pipeline
 python src/pipeline/prefect_flow.py
 
-# Launch API locally
+# Launch API
 uvicorn src.api.main:app --reload
 
-# Run monitoring pipeline
+# Run monitoring
 python src/monitoring/monitor.py
 ```
 
