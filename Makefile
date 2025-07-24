@@ -17,9 +17,9 @@ lint:
 
 test:
 	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && pytest tests; \
+		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" pytest tests; \
 	else \
-		pytest tests; \
+		PYTHONPATH="$(shell pwd)" pytest tests; \
 	fi
 
 format:
