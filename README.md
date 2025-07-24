@@ -168,7 +168,7 @@ Contributions, issues and PRs welcome.
 
 ✅ Extend hyperparameter tuning workflows.
 
-✅ Add Grafana dashboards if needed for advanced monitoring.
+✅ Add Grafana dashboards if needed for advanced monitoring if needed.
 
 ---
 
