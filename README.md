@@ -63,34 +63,34 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 
 ```mermaid
 flowchart TD
-    subgraph Utilisateur
-        A[👤 Utilisateur]
-        A -->|Requête| B[FastAPI API]
+    subgraph User Interaction
+        A[👤 User]
+        A -->|Request| B[FastAPI API]
     end
 
-    subgraph Inférence Temps Réel
-        B -->|Charge modèle + features| C[Prédicteur LightGBM]
-        C -->|Retour prédiction| A
+    subgraph Real-time Inference
+        B -->|Load model + features| C[LightGBM Predictor]
+        C -->|Return prediction| A
     end
 
-    subgraph Données & Préparation
-        D[S3 LocalStack (ou S3 Cloud)]
+    subgraph Data & Preparation
+        D[S3 (LocalStack or Cloud)]
         E[Parquet + Pandas + Feature Engineering]
         E --> D
-        D -->|Chargement données| C
+        D -->|Load data| C
     end
 
     subgraph Orchestration
         F[Prefect Flow]
-        F -->|Déclenche ETL + Training| E
-        F -->|Déclenche Retraining| G[MLflow Tracking + Registry]
-        G -->|Modèle versionné| C
+        F -->|Trigger ETL + Training| E
+        F -->|Trigger Retraining| G[MLflow Tracking + Registry]
+        G -->|Versioned Model| C
     end
 
     subgraph Monitoring
         H[Evidently]
-        H -->|Détection Drift| G
-        H -->|Détection Drift| F
+        H -->|Drift Detection| G
+        H -->|Drift Detection| F
     end
 ```
 
