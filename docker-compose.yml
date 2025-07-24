@@ -13,6 +13,7 @@ services:
     environment:
       - SERVICES=s3,lambda,apigateway
       - DEBUG=1
+      - LOCALSTACK_TMPDIR=/tmp/localstack-tmp
     ports:
       - "4566:4566"
       - "4571:4571"
