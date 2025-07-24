@@ -1,43 +1,61 @@
 SHELL := /bin/bash
 
-# Neutralise activation si dans Codespaces
-ifdef CODESPACES
-	ACTIVATE =
-else
-	ifeq ($(OS),Windows_NT)
-		ACTIVATE = .venv/Scripts/activate
-	else
-		ACTIVATE = source .venv/bin/activate
-	endif
-endif
-
 install:
 	python -m venv .venv
-	$(ACTIVATE); pip install -r requirements.txt
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && pip install -r requirements.txt; \
+	else \
+		pip install -r requirements.txt; \
+	fi
 
 lint:
-	$(ACTIVATE); black src tests
-	$(ACTIVATE); flake8 src tests
-	$(ACTIVATE); isort src tests
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && black src tests && flake8 src tests && isort src tests; \
+	else \
+		black src tests && flake8 src tests && isort src tests; \
+	fi
 
 test:
-	PYTHONPATH=$(pwd) .venv/Scripts/python.exe -m pytest tests
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && pytest tests; \
+	else \
+		pytest tests; \
+	fi
 
 format:
-	$(ACTIVATE); black src tests
-	$(ACTIVATE); isort src tests
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && black src tests && isort src tests; \
+	else \
+		black src tests && isort src tests; \
+	fi
 
 ingest:
-	PYTHONPATH="$(shell pwd)" $(ACTIVATE); python src/data/ingest_etf_data.py
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/data/ingest_etf_data.py; \
+	else \
+		PYTHONPATH="$(shell pwd)" python src/data/ingest_etf_data.py; \
+	fi
 
 feature:
-	PYTHONPATH="$(shell pwd)" $(ACTIVATE); python src/data/feature_engineering.py
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/data/feature_engineering.py; \
+	else \
+		PYTHONPATH="$(shell pwd)" python src/data/feature_engineering.py; \
+	fi
 
 train:
-	PYTHONPATH="$(shell pwd)" $(ACTIVATE); python src/models/train_model.py
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/models/train_model.py; \
+	else \
+		PYTHONPATH="$(shell pwd)" python src/models/train_model.py; \
+	fi
 
 predict:
-	PYTHONPATH="$(shell pwd)" $(ACTIVATE); python src/models/predict.py
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/models/predict.py; \
+	else \
+		PYTHONPATH="$(shell pwd)" python src/models/predict.py; \
+	fi
 
 build:
 	docker build -t etf-mlops-fastapi .
@@ -50,4 +68,8 @@ ci-check:
 	make test
 
 pipeline:
-	PYTHONPATH="$(shell pwd)" $(ACTIVATE); python src/pipeline/prefect_flow.py
+	@if [ -f ".venv/bin/activate" ]; then \
+		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/pipeline/prefect_flow.py; \
+	else \
+		PYTHONPATH="$(shell pwd)" python src/pipeline/prefect_flow.py; \
+	fi
