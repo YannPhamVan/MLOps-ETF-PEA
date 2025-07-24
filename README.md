@@ -34,7 +34,7 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 
 ## 📂 Repository Structure
 
-* `notebooks/` : EDA, training (`02_train_model.ipynb`), prediction (`03_predict.ipynb`).
+* `notebooks/` : EDA, training (`02_train_model.ipynb`), prediction (`03_predict.ipynb`)
 * `src/models/` : `train_model.py`, `predict.py`
 * `src/pipeline/` : `prefect_flow.py` (workflow orchestration)
 * `src/api/` : `main.py` (FastAPI deployment)
@@ -154,8 +154,9 @@ Contributions, issues and PRs welcome.
 
 ## 📬 Contact
 
-* **Yann Pham Van**
-  [LinkedIn](https://www.linkedin.com/in/chasseur2valeurs/) | [GitHub](https://github.com/YannPhamVan)
+**Yann Pham Van**
+
+[LinkedIn](https://www.linkedin.com/in/chasseur2valeurs/) | [GitHub](https://github.com/YannPhamVan)
 
 ---
 
