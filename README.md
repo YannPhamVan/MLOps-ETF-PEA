@@ -31,20 +31,6 @@ This project addresses **retail investor challenges** in estimating if an ETF ca
 
 ---
 
-## 🪜 Evaluation Grid Mapping
-
-| Criteria                                   | Status                                                    |
-| ------------------------------------------ | --------------------------------------------------------- |
-| **Problem description**                    | ✅ Well described                                          |
-| **Cloud**                                  | ✅ LocalStack + Terraform (IaC), partial cloud             |
-| **Experiment tracking and model registry** | ✅ MLflow tracking + registry                              |
-| **Workflow orchestration**                 | ✅ Prefect orchestration                                   |
-| **Model deployment**                       | ✅ FastAPI local deployment, containerisable               |
-| **Model monitoring**                       | ✅ Evidently for metrics monitoring                        |
-| **Reproducibility**                        | ✅ requirements.txt, Makefile, pre-commit, clear structure |
-| **Best practices**                         | ✅ Tests, CI/CD, linting, formatting, Makefile, pre-commit |
-
----
 
 ## 📂 Repository Structure
 
@@ -78,8 +64,36 @@ graph TD
   C --> J[Evidently Drift Monitoring]
 ```
 
----
 
+---
+## 🐳 Docker & LocalStack Setup
+The project uses Docker and LocalStack to emulate AWS services locally.
+
+**Prerequisites**
+* Docker & docker-compose installed
+* AWS CLI installed locally (or use the dockerized AWS CLI alternative)
+
+**Install AWS CLI (if missing)**
+```bash
+pip install awscli
+```
+Or use your OS package manager.
+
+**Running the stack**
+```bash
+docker-compose up -d
+```
+**Verify LocalStack S3**
+```bash
+aws --endpoint-url=http://localhost:4566 s3 ls
+```
+If you don’t want to install AWS CLI locally, run:
+```bash
+docker run --rm -it amazon/aws-cli --endpoint-url=http://host.docker.internal:4566 s3 ls
+```
+> **Note:** On Linux, replace `host.docker.internal` by `localhost` if needed.
+
+---
 ## 🚀 Quickstart
 
 ```bash
@@ -91,16 +105,30 @@ make format
 make lint
 make test
 
-# Run Prefect pipeline
+# Start Prefect ETL pipeline
 python src/pipeline/prefect_flow.py
 
-# Launch API
+# Launch API locally
 uvicorn src.api.main:app --reload
 
-# Run monitoring
+# Run monitoring pipeline
 python src/monitoring/monitor.py
 ```
 
+---
+
+## 🪜 Evaluation Grid Mapping
+
+| Criteria                                   | Status                                                    |
+| ------------------------------------------ | --------------------------------------------------------- |
+| **Problem description**                    | ✅ Well described                                          |
+| **Cloud**                                  | ✅ LocalStack + Terraform (IaC), partial cloud             |
+| **Experiment tracking and model registry** | ✅ MLflow tracking + registry                              |
+| **Workflow orchestration**                 | ✅ Prefect orchestration                                   |
+| **Model deployment**                       | ✅ FastAPI local deployment, containerisable               |
+| **Model monitoring**                       | ✅ Evidently for metrics monitoring                        |
+| **Reproducibility**                        | ✅ requirements.txt, Makefile, pre-commit, clear structure |
+| **Best practices**                         | ✅ Tests, CI/CD, linting, formatting, Makefile, pre-commit |
 ---
 ## 📈 Results
 
@@ -140,4 +168,6 @@ Contributions, issues and PRs welcome.
 
 ---
 
-**Ready for peer review 🚀**. This README structure allows **reviewers to map directly to the Zoomcamp evaluation grid while navigating the repo efficiently.**
+**Ready for peer review 🚀**
+
+This README aligns with the Zoomcamp evaluation grid and guides reviewers smoothly through setup, dev, infra, and testing.
