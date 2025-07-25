@@ -1,6 +1,9 @@
 # MLOps-ETF-PEA
 
+![MLOps ETF PEA](images/baniere.png)
+
 **Project:** MLOps pipeline to predict ETF daily returns and assess probability of reaching PEA annual thresholds using ML.
+> Note: The **PEA** (**Plan d'Épargne en Actions**) is a French government-backed savings plan allowing individuals to invest in European stocks and ETFs with significant tax advantages, provided certain holding and withdrawal conditions are met. This project focuses on helping retail investors optimize their investments within this specific framework.
 
 ---
 
@@ -168,6 +171,12 @@ python src/monitoring/monitor.py
 
 ---
 
+## ⚠️ Known Limitations
+
+Currently, the monitoring pipeline using Evidently can fail due to compatibility issues with recent library versions, causing errors in metric calculations and report generation. This does not block training or prediction but affects monitoring reliability. Fixes or workarounds are under consideration.
+
+---
+
 ## 🤝 Contributing
 
 ```bash
@@ -188,14 +197,6 @@ Contributions, issues and PRs welcome.
 
 ---
 
-## ⚠️ Known Limitations
-
-- The monitoring pipeline using Evidently is temporarily disabled due to an attribute error (`Context` object missing `target_name`).  
-- This issue does not affect the core pipeline (data ingestion, training, prediction), which runs smoothly.  
-- Fixing this is planned for a future update.
-
----
-
 ## 🏁 Next improvements
 
 ✅ Containerize and deploy to cloud (AWS Lambda/Fargate).
@@ -209,5 +210,3 @@ Contributions, issues and PRs welcome.
 ---
 
 **Ready for peer review 🚀**
-
-This README aligns with the Zoomcamp evaluation grid and guides reviewers smoothly through setup, dev, infra, and testing.
