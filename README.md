@@ -188,6 +188,14 @@ Contributions, issues and PRs welcome.
 
 ---
 
+## ⚠️ Known Limitations
+
+- The monitoring pipeline using Evidently is temporarily disabled due to an attribute error (`Context` object missing `target_name`).  
+- This issue does not affect the core pipeline (data ingestion, training, prediction), which runs smoothly.  
+- Fixing this is planned for a future update.
+
+---
+
 ## 🏁 Next improvements
 
 ✅ Containerize and deploy to cloud (AWS Lambda/Fargate).

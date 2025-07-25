@@ -5,6 +5,8 @@ from evidently.metric_preset import DataDriftPreset, RegressionPreset, TargetDri
 from evidently.report import Report
 from evidently import ColumnMapping
 import joblib
+import src.hotfix_patch_evidently
+
 
 def generate_monitoring_reports(reference_path, current_path, output_dir):
     reference_df = pd.read_parquet(reference_path)

@@ -67,7 +67,7 @@ def display_metrics():
 
 @task
 def run_monitoring():
-    subprocess.run([sys.executable, "src/monitoring/monitor.py"], check=True)
+    # subprocess.run([sys.executable, "src/monitoring/monitor.py"], check=True)
 
 
 @flow
