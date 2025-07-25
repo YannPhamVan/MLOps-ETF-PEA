@@ -1,11 +1,9 @@
 from pathlib import Path
+
 import pandas as pd
-import numpy as np
+from evidently import ColumnMapping
 from evidently.metric_preset import DataDriftPreset, RegressionPreset, TargetDriftPreset
 from evidently.report import Report
-from evidently import ColumnMapping
-import joblib
-import src.hotfix_patch_evidently
 
 
 def generate_monitoring_reports(reference_path, current_path, output_dir):
@@ -34,7 +32,7 @@ def generate_monitoring_reports(reference_path, current_path, output_dir):
         latest_versions = client.get_latest_versions(model_name, stages=["None"])
         if not latest_versions:
             raise RuntimeError(
-                f"No versions found for model '{model_name}'. Cannot proceed with monitoring."
+                f"No version found for '{model_name}'. Cannot proceed with monitoring."
             )
         model_uri = f"models:/{model_name}/{latest_versions[0].version}"
         model = mlflow.pyfunc.load_model(model_uri)

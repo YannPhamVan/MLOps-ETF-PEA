@@ -42,11 +42,10 @@ def rebuild_dataset():
 
 @task
 def train_model():
-    subprocess.run([
-        sys.executable,
-        "src/models/train_model.py",
-        "--tracking_uri", "mlruns"
-    ], check=True)
+    subprocess.run(
+        [sys.executable, "src/models/train_model.py", "--tracking_uri", "mlruns"],
+        check=True,
+    )
 
 
 @task
@@ -68,6 +67,7 @@ def display_metrics():
 @task
 def run_monitoring():
     # subprocess.run([sys.executable, "src/monitoring/monitor.py"], check=True)
+    pass
 
 
 @flow

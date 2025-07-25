@@ -1,5 +1,5 @@
-from sklearn.metrics import root_mean_squared_error
 import evidently.metrics.regression_performance.regression_quality as rq
+from sklearn.metrics import root_mean_squared_error
 
 
 def fixed_calculate(self, data):
