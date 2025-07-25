@@ -17,15 +17,32 @@ def generate_monitoring_reports(reference_path, current_path, output_dir):
 
     # Charger le modèle pour générer les prédictions sur reference_df
     import mlflow
-    model_uri = "models:/ETF_PEA_MLOpsZoomcamp/Production"
-    model = mlflow.pyfunc.load_model(model_uri)
+    from mlflow.exceptions import MlflowException
+
+    model_name = "ETF_PEA_MLOpsZoomcamp"
+
+    try:
+        # Essayer de charger la version en Production
+        model = mlflow.pyfunc.load_model(f"models:/{model_name}/Production")
+        print("[INFO] Loaded model in Production stage.")
+    except MlflowException:
+        # Si non disponible, charger la dernière version
+        print("[WARN] No model in Production stage. Loading latest version instead.")
+        client = mlflow.MlflowClient()
+        latest_versions = client.get_latest_versions(model_name, stages=["None"])
+        if not latest_versions:
+            raise RuntimeError(f"No versions found for model '{model_name}'. Cannot proceed with monitoring.")
+        model_uri = f"models:/{model_name}/{latest_versions[0].version}"
+        model = mlflow.pyfunc.load_model(model_uri)
+        print(f"[INFO] Loaded model version {latest_versions[0].version} for monitoring.")
+
     reference_df['prediction'] = model.predict(reference_df)
     
     if 'prediction' not in current_df.columns:
         raise ValueError("'prediction' column missing in current dataset.")
 
-    # Exclure Date si présent
-    features = [col for col in reference_df.columns if col not in ['target', 'prediction', 'Date']]
+    # Exclure Date et ticker si présents
+    features = [col for col in reference_df.columns if col not in ['target', 'prediction', 'Date', 'ticker']]
 
     column_mapping = ColumnMapping(
         target='target',
