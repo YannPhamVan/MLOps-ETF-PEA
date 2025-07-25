@@ -6,7 +6,7 @@ pandas
 numpy==1.26.4
 scikit-learn
 mlflow
-evidently==0.4.23
+evidently==0.4.19
 prefect
 fastapi
 uvicorn
