@@ -128,6 +128,10 @@ python test_s3_flow.py
 # Run Prefect pipeline
 python src/pipeline/prefect_flow.py
 
+# ⚠️ If you get "ModuleNotFoundError: No module named 'src'"
+export PYTHONPATH=.
+
+
 # Launch API
 uvicorn src.api.main:app --reload
 

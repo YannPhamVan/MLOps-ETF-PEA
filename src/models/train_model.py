@@ -19,7 +19,17 @@ logging.basicConfig(
 
 
 def train_model(data_path: Path, tracking_uri: str, experiment_name: str) -> None:
+    if not tracking_uri:
+        tracking_uri = "mlruns"
     mlflow.set_tracking_uri(tracking_uri)
+    
+    experiment_name = "ETF_PEA_MLOpsZoomcamp"
+    experiment = mlflow.get_experiment_by_name(experiment_name)
+    if experiment is None:
+        mlflow.create_experiment(
+            experiment_name,
+            artifact_location="file:mlruns"
+        )
     mlflow.set_experiment(experiment_name)
 
     df = pd.read_parquet(data_path)
@@ -103,7 +113,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--tracking_uri",
         type=str,
-        default="file:///G:/Mon Drive/DataTalksClub/MLOps-ETF-PEA/mlruns",
+        default="file:mlruns",
         help="MLflow tracking URI",
     )
     parser.add_argument(

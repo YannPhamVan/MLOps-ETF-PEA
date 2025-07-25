@@ -1,61 +1,36 @@
 SHELL := /bin/bash
+PYTHON := PYTHONPATH=. python
 
 install:
 	python -m venv .venv
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && pip install -r requirements.txt; \
-	else \
-		pip install -r requirements.txt; \
-	fi
+	. .venv/bin/activate && pip install -r requirements.txt
 
 lint:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && black src tests && flake8 src tests && isort src tests; \
-	else \
-		black src tests && flake8 src tests && isort src tests; \
-	fi
+	black src tests
+	flake8 src tests
+	isort src tests
 
 test:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" pytest tests; \
-	else \
-		PYTHONPATH="$(shell pwd)" pytest tests; \
-	fi
+	$(PYTHON) -m pytest tests
 
 format:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && black src tests && isort src tests; \
-	else \
-		black src tests && isort src tests; \
-	fi
+	black src tests
+	isort src tests
 
-ingest:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/data/ingest_etf_data.py; \
-	else \
-		PYTHONPATH="$(shell pwd)" python src/data/ingest_etf_data.py; \
-	fi
+create-bucket:
+	aws --endpoint-url=http://localhost:4566 s3 mb s3://mlops-etf-pea-bucket || true
+
+ingest: create-bucket
+	$(PYTHON) src/data/ingest_etf_data.py
 
 feature:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/data/feature_engineering.py; \
-	else \
-		PYTHONPATH="$(shell pwd)" python src/data/feature_engineering.py; \
-	fi
+	$(PYTHON) src/data/feature_engineering.py
 
 train:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/models/train_model.py; \
-	else \
-		PYTHONPATH="$(shell pwd)" python src/models/train_model.py; \
-	fi
+	MLFLOW_TRACKING_URI=mlruns $(PYTHON) src/models/train_model.py
 
 predict:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/models/predict.py; \
-	else \
-		PYTHONPATH="$(shell pwd)" python src/models/predict.py; \
-	fi
+	$(PYTHON) src/models/predict.py
 
 build:
 	docker build -t etf-mlops-fastapi .
@@ -63,13 +38,9 @@ build:
 deploy:
 	docker run -p 8000:8000 etf-mlops-fastapi
 
-ci-check:
-	make lint
-	make test
+ci-check: lint test
 
-pipeline:
-	@if [ -f ".venv/bin/activate" ]; then \
-		source .venv/bin/activate && PYTHONPATH="$(shell pwd)" python src/pipeline/prefect_flow.py; \
-	else \
-		PYTHONPATH="$(shell pwd)" python src/pipeline/prefect_flow.py; \
-	fi
+pipeline: create-bucket
+	MLFLOW_TRACKING_URI=mlruns \
+	PYTHONPATH="$(shell pwd)" \
+	python src/pipeline/prefect_flow.py

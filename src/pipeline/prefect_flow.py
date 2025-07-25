@@ -42,7 +42,11 @@ def rebuild_dataset():
 
 @task
 def train_model():
-    subprocess.run([sys.executable, "src/models/train_model.py"], check=True)
+    subprocess.run([
+        sys.executable,
+        "src/models/train_model.py",
+        "--tracking_uri", "mlruns"
+    ], check=True)
 
 
 @task
