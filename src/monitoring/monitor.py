@@ -4,22 +4,28 @@ import numpy as np
 from evidently.metric_preset import DataDriftPreset, RegressionPreset, TargetDriftPreset
 from evidently.report import Report
 from evidently import ColumnMapping
+import joblib
 
 def generate_monitoring_reports(reference_path, current_path, output_dir):
     reference_df = pd.read_parquet(reference_path)
     current_df = pd.read_parquet(current_path)
 
-    # Check and enforce 'prediction' presence in reference_df
-    if 'prediction' not in reference_df.columns:
-        reference_df['prediction'] = np.nan
-
-    if 'prediction' not in current_df.columns:
-        raise ValueError("'prediction' column missing in current dataset.")
     if 'target' not in reference_df.columns:
         raise ValueError("'target' column missing in reference dataset.")
+    if 'target' not in current_df.columns:
+        raise ValueError("'target' column missing in current dataset.")
 
-    # Align features explicitly, excluding 'target' and 'prediction'
-    features = [col for col in reference_df.columns if col not in ['target', 'prediction']]
+    # Charger le modèle pour générer les prédictions sur reference_df
+    import mlflow
+    model_uri = "models:/ETF_PEA_MLOpsZoomcamp/Production"
+    model = mlflow.pyfunc.load_model(model_uri)
+    reference_df['prediction'] = model.predict(reference_df)
+    
+    if 'prediction' not in current_df.columns:
+        raise ValueError("'prediction' column missing in current dataset.")
+
+    # Exclure Date si présent
+    features = [col for col in reference_df.columns if col not in ['target', 'prediction', 'Date']]
 
     column_mapping = ColumnMapping(
         target='target',
