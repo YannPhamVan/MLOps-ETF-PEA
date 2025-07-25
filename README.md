@@ -108,6 +108,9 @@ make test
 # Launch LocalStack (AWS emulation)
 docker-compose up -d
 
+# ⚠️ Check LocalStack health
+curl http://localhost:4566/_localstack/health
+
 # ⚠️ Configure fake AWS credentials for LocalStack
 aws configure
 # Fill with:
@@ -116,15 +119,11 @@ aws configure
 # Default region name: us-east-1
 # Default output format: json
 
-# ⚠️ On Linux, if you get:
-# "Could not connect to the endpoint URL: http://localhost:4566/"
-# try using:
-#   --endpoint-url=http://host.docker.internal:4566
-# instead of:
-#   --endpoint-url=http://localhost:4566
-#
 # Test LocalStack S3:
 aws --endpoint-url=http://localhost:4566 s3 ls
+
+# Optional: run Prefect S3 test flow to validate your LocalStack + Prefect connection
+python test_s3_flow.py
 
 # Run Prefect pipeline
 python src/pipeline/prefect_flow.py
@@ -135,7 +134,11 @@ uvicorn src.api.main:app --reload
 # Run monitoring
 python src/monitoring/monitor.py
 ```
+> **Tip:** If you get `Could not connect to the endpoint URL: http://localhost:4566/`, try:
 
+* **Using `http://host.docker.internal:4566` instead of `http://localhost:4566` on Linux/Windows.**
+
+* **Ensuring LocalStack is running (`docker-compose up -d`) and healthy (`curl http://localhost:4566/_localstack/health`).**
 ---
 
 ## 🪜 Evaluation Grid Mapping
