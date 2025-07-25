@@ -106,7 +106,7 @@ make lint
 make test
 
 # Launch LocalStack (AWS emulation)
-docker-compose up -d
+make localstack-up
 
 # ⚠️ Check LocalStack health
 curl http://localhost:4566/_localstack/health

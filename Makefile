@@ -40,6 +40,9 @@ deploy:
 
 ci-check: lint test
 
+localstack-up:
+	docker-compose up -d
+
 pipeline: create-bucket
 	MLFLOW_TRACKING_URI=mlruns \
 	PYTHONPATH="$(shell pwd)" \
