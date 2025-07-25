@@ -3,7 +3,7 @@
 
 # Core packages
 pandas
-numpy
+numpy==1.26.4
 scikit-learn
 mlflow
 evidently==0.4.23
